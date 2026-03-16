@@ -2,10 +2,15 @@ name: Deploy Sanity
 on:
   push:
     branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
-  sanity-deploy:
+  build_and_deploy:
     runs-on: ubuntu-latest
-    name: Deploy Sanity
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -13,6 +18,9 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx sanity deploy
-        env:
-          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+      - run: npx sanity build dist -y
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - uses: actions/deploy-pages@v4

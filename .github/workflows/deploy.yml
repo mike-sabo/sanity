@@ -2,15 +2,13 @@ name: Deploy Sanity
 on:
   push:
     branches: [main]
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 jobs:
   sanity-deploy:
     runs-on: ubuntu-latest
     name: Deploy Sanity
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm

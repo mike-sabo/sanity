@@ -1,1 +1,3 @@
-export const schemaTypes = []
+import recipies from "./recipies";
+
+export const schemaTypes = [recipies]
